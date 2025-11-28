@@ -7,7 +7,7 @@ public class InputUtils {
     private static final Scanner scanner = new Scanner(System.in);
 
     public static String readText(String message) {
-        System.out.print(message + " : ");
+        System.out.print(">> "+message+ " : ");
         return scanner.nextLine().trim();
     }
 
@@ -41,7 +41,7 @@ public class InputUtils {
         }
     }
 
-    public static boolean confirm(String message) {
+    public static boolean readconfirm(String message) {
         while (true) {
             String input = readText(message + " (y/n): ").toLowerCase();
             if (input.equals("y") || input.equals("yes")) return true;

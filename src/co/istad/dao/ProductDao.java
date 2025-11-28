@@ -6,4 +6,6 @@ public interface ProductDao {
     List<Product> selectAll();
     void insert(Product product);
     void deleteById(Integer id);
+    List<Product> selectByName(String name);
+    Product findById(Integer id);
 }

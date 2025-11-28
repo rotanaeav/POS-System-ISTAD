@@ -1,24 +1,25 @@
 package co.istad.entity;
-
 public class Product {
     private Integer id;
     private String name;
-    private Double price;
+    private Double price; // Selling Price (For Customer)
+    private Double cost;  // Cost Price (For Admin/Stock) <--- NEW
     private Integer qty;
     private String category;
-    private String status; //
+    private String status;
 
-    public Product() {
-    }
+    public Product() {}
 
-    public Product(Integer id, String name, Double price, Integer qty, String category, String status) {
+    public Product(Integer id, String name, Double price, Integer qty, String category, String status, Double cost) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.qty = qty;
         this.category = category;
-        this.status = "Active";
+        this.status = status;
+        this.cost = cost;
     }
+
 
     public void setId(Integer id) {
         this.id = id;
@@ -44,6 +45,8 @@ public class Product {
         this.status = status;
     }
 
+    public void setCost(Double cost) { this.cost = cost; }
+
     public Integer getId() {
         return id;
     }
@@ -67,4 +70,5 @@ public class Product {
     public String getStatus() {
         return status;
     }
+    public Double getCost() { return cost; }
 }

@@ -1,0 +1,5 @@
+ID,Username,Password,Role,Status
+9900,root,istad2025,ADMIN,Active
+9901,stock,istad@min,STOCK,Active
+9902,pos,pos@istad,SALE,Active
+9903,rtn,rtn@istad,SALE,Inactive
