@@ -20,6 +20,9 @@ public class Product {
         this.cost = cost;
     }
 
+    public Product(int nextId, String name, double price, int qty, String category, String active, double cost) {
+    }
+
 
     public void setId(Integer id) {
         this.id = id;

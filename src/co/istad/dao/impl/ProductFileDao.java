@@ -30,13 +30,13 @@ public class ProductFileDao implements ProductDao {
 
                 if (parts.length >= 7) {
                     Product p = new Product();
-                    p.setId(Integer.parseInt(parts[0].trim()));
+                    p.setId(Integer.valueOf(Integer.parseInt(parts[0].trim())));
                     p.setName(parts[1].trim());
-                    p.setPrice(Double.parseDouble(parts[2].trim()));
-                    p.setQty(Integer.parseInt(parts[3].trim()));
+                    p.setPrice(Double.valueOf(Double.parseDouble(parts[2].trim())));
+                    p.setQty(Integer.valueOf(Integer.parseInt(parts[3].trim())));
                     p.setCategory(parts[4].trim());
                     p.setStatus(parts[5].trim());
-                    p.setCost(Double.parseDouble(parts[6].trim()));
+                    p.setCost(Double.valueOf(Double.parseDouble(parts[6].trim())));
                     products.add(p);
                 }
             }
