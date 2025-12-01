@@ -1,96 +1,106 @@
 package co.istad.service;
 
 import co.istad.dao.ProductDao;
+import co.istad.dao.impl.ProductFileDao;
 import co.istad.entity.Product;
-import co.istad.utils.PrintUtils;
-
+import static co.istad.utils.PrintUtils.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CartService {
 
-    private final ProductDao productDao;
-    private final List<Product> cartItems;
-
-    public CartService(ProductDao productDao) {
-        this.productDao = productDao;
-        this.cartItems = new ArrayList<>();
-    }
+    private final ProductDao productDao = new ProductFileDao();
+    private final List<Product> cartItems = new ArrayList<>();
 
     public boolean addItemToCart(Integer productId, Integer quantity) {
-        Product productInStock = productDao.findById(productId);
-
-        if (productInStock == null) {
-            PrintUtils.printErr("Error: Product ID " + productId + " not found.");
-            return false;
-        }
 
         if (quantity == null || quantity <= 0) {
-            PrintUtils.printErr("Error: Quantity must be a valid number greater than zero.");
+            printErr("Quantity must be a valid number greater than zero.");
+            return false;
+        }
+        Product productInStock = productDao.findById(productId);
+        if (productInStock == null) {
+            printErr("Product ID " + productId + " not found.");
             return false;
         }
 
         if (productInStock.getQty() < quantity) {
-            PrintUtils.printWarm("Out of Stock! Only " + productInStock.getQty() + " of " + productInStock.getName() + " available.");
+            printWarm("Out of Stock! Only " + productInStock.getQty() + " available.");
             return false;
         }
 
-        Product cartItem = new Product();
-        cartItem.setId(productInStock.getId());
-        cartItem.setName(productInStock.getName());
-        cartItem.setPrice(productInStock.getPrice());
-        cartItem.setCost(productInStock.getCost());
-        cartItem.setQty(quantity);
-        cartItem.setCategory(productInStock.getCategory());
-        cartItem.setStatus(productInStock.getStatus());
+        for (Product item : cartItems) {
+            if (item.getId().equals(productId)) {
+                if (item.getQty() + quantity > productInStock.getQty()) {
+                    printWarm("Cannot add more. You already have " + item.getQty() + " in cart.");
+                    return false;
+                }
+                item.setQty(item.getQty() + quantity);
+                printTrue("Updated cart: " + item.getName() + " (Total: " + item.getQty() + ")");
+                return true;
+            }
+        }
+        
+        Product cartItem = new Product(
+                productInStock.getId(),
+                productInStock.getName(),
+                productInStock.getPrice(),
+                quantity,
+                productInStock.getCategory(),
+                productInStock.getStatus(),
+                productInStock.getCost()
+        );
 
         this.cartItems.add(cartItem);
-        PrintUtils.printTrue("Added " + quantity + " x " + productInStock.getName() + " to cart.");
+        printTrue("Added " + quantity + " x " + productInStock.getName() + " to cart.");
         return true;
-    }
-
-    public List<Product> getCartItems() {
-        return this.cartItems;
     }
 
     public double checkout() {
         if (this.cartItems.isEmpty()) {
-            PrintUtils.printInfo("Cart is empty. Nothing to checkout.");
+            printInfo("Cart is empty. Nothing to checkout.");
             return 0.0;
         }
-
         double totalAmount = 0.0;
-
-        PrintUtils.println("\n--- 🧾 Checkout Summary ---");
-
+        
+        printHead("CHECKOUT SUMMARY");
+        printf("%-20s %-5s %-10s %-10s%n", "NAME", "QTY", "PRICE", "TOTAL");
+        
         for (Product item : this.cartItems) {
-            double lineTotal = item.getPrice() * item.getQty();
-            totalAmount += lineTotal;
+            double Total = item.getPrice() * item.getQty();
+            totalAmount += Total;
 
-            PrintUtils.printf("%-20s %3d x $%.2f = $%.2f%n", item.getName(), item.getQty(), item.getPrice(), lineTotal);
+            printf("%-20s %-5d %-9.2f$ %-9.2f$%n",
+                    item.getName(), item.getQty(), item.getPrice(), Total);
 
-            Product productInStock = productDao.findById(item.getId());
+            Product realProduct = productDao.findById(item.getId());
 
-            if (productInStock == null) {
-                PrintUtils.printWarm("Product ID " + item.getId() + " was deleted from stock. Stock update skipped.");
+            if (realProduct == null) {
+                printWarm("Product ID " + item.getId() + " was deleted. Stock update skipped.");
                 continue;
             }
 
-            int newStockQty = productInStock.getQty() - item.getQty();
-            productInStock.setQty(Integer.valueOf(newStockQty));
+            int newStockQty = realProduct.getQty() - item.getQty();
+            realProduct.setQty(Math.max(newStockQty, 0));
 
-            productDao.insert(productInStock);
+            productDao.insert(realProduct);
         }
-
         this.cartItems.clear();
 
-        PrintUtils.println("---------------------------");
-        PrintUtils.printf("Total Payable: $%.2f%n", totalAmount);
-        PrintUtils.println("---------------------------");
+
+        printf("%nTOTAL PAYABLE: %.2f$%n", totalAmount);
+
+        printTrue("Checkout Successful!.");
 
         return totalAmount;
     }
 
-    public void addItemToCart(int i, int i1) {
+    public void clearCart() {
+        this.cartItems.clear();
+        printInfo("Cart cleared.");
+    }
+
+    public List<Product> getCartItems() {
+        return this.cartItems;
     }
 }

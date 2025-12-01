@@ -80,7 +80,7 @@ public class ProductService {
         printHead("Restocking: " + p.getName() + " (Current: " + p.getQty() + ")");
         int addQty = readInt("Qty to add: ");
 
-        p.setQty(Integer.valueOf(p.getQty() + addQty));
+        p.setQty(p.getQty() + addQty);
         productDao.insert(p);
         printTrue("Stock Updated!");
     }
@@ -89,7 +89,7 @@ public class ProductService {
         printHead("UPDATE PRODUCT DETAILS");
 
         int id = readInt("Enter Product ID to Edit");
-        Product p = productDao.findById(Integer.valueOf(id));
+        Product p = productDao.findById(id);
 
         if (p == null) {
            printErr("Product not found!");
@@ -109,7 +109,7 @@ public class ProductService {
         if (!newPriceStr.isEmpty()) {
             try {
                 double newPrice = Double.parseDouble(newPriceStr);
-                p.setPrice(Double.valueOf(newPrice));
+                p.setPrice(newPrice);
             } catch (NumberFormatException e) {
                 printWarm("Invalid price format. Keeping old price.");
             }
@@ -125,7 +125,7 @@ public class ProductService {
     }
     public void deleteProduct() {
         int id = readInt("Enter ID");
-        Product p = productDao.findById(Integer.valueOf(id));
+        Product p = productDao.findById(id);
         if (p == null) {
            printErr("Product not found!");
             return;
@@ -140,7 +140,7 @@ public class ProductService {
         boolean isConfirmed = readconfirm("Are you sure you want to delete this?");
 
         if (isConfirmed) {
-            productDao.deleteById(Integer.valueOf(id));
+            productDao.deleteById(id);
             printTrue("Product '" + p.getName() + "' has been deleted.");
         } else {
             printInfo("Operation cancelled.");

@@ -35,12 +35,16 @@ public class PrintUtils {
     }
 
     public static void printHead(String title) {
-
+        System.out.println(CYAN + "\n***  " + title.toUpperCase() +"***" + RESET);
     }
 
     public static void printf(String s, double totalAmount) {
     }
 
-    public static void printf(String s, String name, Integer qty, Double price, double lineTotal) {
+    public static void printf(String format, Object... args) {
+        System.out.printf(format, args);
+    }
+    public static void printCase(String option) {
+        System.out.println(GREEN + option + RESET);
     }
 }
