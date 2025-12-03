@@ -1,22 +1,22 @@
 ID,Name,Price,Qty,Category,Status,Cost
-1001,Coca Cola,1.50,50,Drink,Active,0.80
-1002,Pepsi,1.50,50,Drink,Active,0.80
-1003,Vital Water,0.50,100,Drink,Active,0.20
-1004,Red Bull,1.20,60,Energy,Active,0.80
+1001,Coca Cola,1.50,39,Drink,Active,0.80
+1002,Pepsi,1.50,5,Drink,Active,0.80
+1003,Vital Water,0.50,95,Drink,Active,0.20
+1004,Red Bull,1.20,55,Energy,Active,0.80
 1005,Sting,1.20,60,Energy,Active,0.50
 1006,Anchor Beer,2.00,100,Alcohol,Active,1.00
 1007,Cambodia Beer,2.00,100,Alcohol,Active,1.00
 1008,Jinro Soju,3.50,30,Alcohol,Active,2.50
 1009,Ice Cola,1.00,40,Drink,Active,0.50
 1010,ViKing,1.00,40,Energy,Active,0.50
-1101,KitKat,0.80,50,Snack,Active,0.30
-1102,Oreo,1.00,50,Snack,Active,0.40
-1103,Hanami,0.50,20,Snack,Active,0.25
-1104,Nescafe Can,0.90,50,Drink,Active,0.40
+1101,KitKat,0.80,41,Snack,Active,0.30
+1102,Oreo,1.00,45,Snack,Active,0.40
+1103,Hanami,0.50,13,Snack,Active,0.25
+1104,Nescafe Can,0.90,42,Drink,Active,0.40
 1201,Tissue Box,1.50,20,Household,Active,1.00
 1202,Paracetamol,2.50,15,Medicine,Active,1.50
 1203,ATOMAX Black,24.80,25,Body Care,Active,22.00
 1301,Notebook,0.75,30,Stationery,Active,0.25
 1302,Pen Blue,0.50,100,Stationery,Active,0.25
-1303,OldTown Coffee,0.50,0,Snack,Active,0.20
+1303,OldTown Coffee,0.50,0,Snack,Deleted,0.20
 1304,Krud,2.00,30,Energy,Active,1.00
