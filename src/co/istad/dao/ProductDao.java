@@ -3,7 +3,10 @@ import co.istad.entity.Product;
 import java.util.List;
 
 public interface ProductDao {
-    List<Product> selectAll();
+    static List<Product> selectAll() {
+        return null;
+    }
+
     void insert(Product product);
     void deleteById(Integer id);
     List<Product> selectByName(String name);

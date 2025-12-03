@@ -4,7 +4,7 @@ import co.istad.dao.ProductDao;
 import co.istad.dao.impl.ProductFileDao;
 import co.istad.entity.Product;
 import static co.istad.utils.InputUtils.*;
-import co.istad.view.TableUtils;
+import static co.istad.view.TableUtils.*;
 import java.util.List;
 import static co.istad.utils.PrintUtils.*;
 
@@ -14,8 +14,8 @@ public class ProductService {
 
     public void AddProduct() {
         printHead("STOCK MANAGEMENT");
-        List<Product> allProducts = productDao.selectAll();
-        TableUtils.renderProducts(allProducts);
+        List<Product> allProducts = ProductDao.selectAll();
+        renderProducts(allProducts);
 
         String inputId = readText("Enter ID to add qty (or press ENTER to create NEW)");
 

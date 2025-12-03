@@ -12,8 +12,7 @@ public class ProductFileDao implements ProductDao {
 
     private static final String FILE_PATH = "data/products.csv";
     //read file
-    @Override
-    public List<Product> selectAll() {
+    public static List<Product> selectAll() {
         List<Product> products = new ArrayList<>();
         File file = new File(FILE_PATH);
 
