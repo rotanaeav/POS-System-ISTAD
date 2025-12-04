@@ -2,107 +2,104 @@ package co.istad.view;
 
 import co.istad.entity.Customer;
 import co.istad.entity.Product;
-import org.nocrala.tools.texttablefmt.BorderStyle;
-import org.nocrala.tools.texttablefmt.CellStyle;
-import org.nocrala.tools.texttablefmt.ShownBorders;
-import org.nocrala.tools.texttablefmt.Table;
+import org.nocrala.tools.texttablefmt.*;
 
 import java.util.List;
+import static co.istad.utils.PrintUtils.*;
 
-import static co.istad.utils.PrintUtils.printInfo;
-import static co.istad.utils.PrintUtils.println;
-
-public class TableUtils{
-
-    public static void renderProducts(List <Product> products){
-        if (products.isEmpty()){
-            printInfo("Product not found");
+public class TableUtils {
+    public static void renderProducts(List<Product> products) {
+        if (products.isEmpty()) {
+            printInfo("No products found.");
             return;
         }
 
-        Table table = new Table(7, BorderStyle.UNICODE_DOUBLE_BOX, ShownBorders.ALL);
+        Table t = new Table(7, BorderStyle.UNICODE_BOX_DOUBLE_BORDER, ShownBorders.ALL);
 
-        table.addCell("ID");
-        table.addCell("NAME");
-        table.addCell("COST");
-        table.addCell("PRICE");
-        table.addCell("QTY");
-        table.addCell("CATEGORY");
-        table.addCell("STATUS");
+        // Header
+        t.addCell(" ID ");
+        t.addCell(" NAME ");
+        t.addCell(" COST ");
+        t.addCell(" PRICE ");
+        t.addCell(" QTY ");
+        t.addCell(" CATEGORY ");
+        t.addCell(" STATUS ");
 
-        for (Product product : products) {
-            if (!product.getStatus().equalsIgnoreCase("Deleted")) {
-                table.addCell(" " + product.getId() + " ");
-                table.addCell(" " + product.getName() + " ");
-                table.addCell(" " + String.format("%.2f", product.getCost()) + " ");
-                table.addCell(" " + String.format("%.2f", product.getPrice()) + " ");
+        for (Product p : products) {
+            if (!p.getStatus().equalsIgnoreCase("Deleted")) {
+                t.addCell(" " + p.getId() + " ");
+                t.addCell(" " + p.getName() + " ");
+                t.addCell(" " + String.format("%.2f", p.getCost()) + " ");
+                t.addCell(" " + String.format("%.2f", p.getPrice()) + " ");
 
-                if (product.getQty() <= 0) {
-                    table.addCell(" OUT OF STOCK ");
+                if (p.getQty() <= 0) {
+                    t.addCell(" OUT OF STOCK ");
                 } else {
-                    table.addCell(" " + product.getQty() + " ");
+                    t.addCell(" " + p.getQty() + " ");
                 }
 
-                table.addCell(" " + product.getCategory() + " ");
-                table.addCell(" " + product.getStatus() + " ");
+                t.addCell(" " + p.getCategory() + " ");
+                t.addCell(" " + p.getStatus() + " ");
             }
         }
-        println(table.render());
+        println(t.render());
     }
-
     public static void renderCustomers(List<Customer> customers) {
         if (customers.isEmpty()) {
             printInfo("No customers found.");
             return;
         }
 
-        Table t = new Table(4, BorderStyle.UNICODE_DOUBLE_BOX, ShownBorders.ALL);
+        Table t = new Table(4, BorderStyle.UNICODE_BOX_DOUBLE_BORDER, ShownBorders.ALL);
 
+        // Header
         t.addCell(" ID ");
         t.addCell(" NAME ");
         t.addCell(" PHONE ");
         t.addCell(" TYPE ");
-
-        for (Customer customer : customers) {
-            t.addCell(" " + customer.getId() + " ");
-            t.addCell(" " + customer.getName() + " ");
-            t.addCell(" " + customer.getPhone() + " ");
-            t.addCell(" " + customer.getType() + " ");
+        for (Customer c : customers) {
+            t.addCell(" " + c.getId() + " ");
+            t.addCell(" " + c.getName() + " ");
+            t.addCell(" " + c.getPhone() + " ");
+            t.addCell(" " + c.getType() + " ");
         }
         println(t.render());
     }
+    public static void renderCustinfo(Customer c) {
+        if (c == null) return;
 
-    public static void renderCustomerInfo(Customer customer) {
-        if (customer == null) return;
+        Table t = new Table(2, BorderStyle.UNICODE_BOX_DOUBLE_BORDER, ShownBorders.ALL);
 
-        Table table = new Table(2, BorderStyle.UNICODE_DOUBLE_BOX, ShownBorders.ALL);
+        // Header
+        t.addCell(" FIELD ");
+        t.addCell(" DATA ");
 
-        table.addCell(" FIELD ");
-        table.addCell(" DATA ");
+        // Data Rows
+        t.addCell(" ID ");
+        t.addCell(" " + c.getId() + " ");
 
-        table.addCell(" ID ");
-        table.addCell(" " + customer.getId() + " ");
+        t.addCell(" Name ");
+        t.addCell(" " + c.getName() + " ");
 
-        table.addCell(" Name ");
-        table.addCell(" " + customer.getName() + " ");
+        t.addCell(" Phone ");
+        t.addCell(" " + c.getPhone() + " ");
 
-        table.addCell(" Phone ");
-        table.addCell(" " + customer.getPhone() + " ");
+        t.addCell(" Type ");
+        t.addCell(" " + c.getType() + " ");
 
-        table.addCell(" Type ");
-        table.addCell(" " + customer.getType() + " ");
-
-        println(table.render());
+        println(t.render());
     }
 
     public static void renderMenu(String title, String[] options) {
-        Table table = new Table(1, BorderStyle.UNICODE_DOUBLE_BOX, ShownBorders.ALL);
+        Table t = new Table(1, BorderStyle.UNICODE_BOX_DOUBLE_BORDER, ShownBorders.ALL);
 
-        table.addCell(" " + title + " ", new CellStyle(CellStyle.HorizontalAlign.center));
+        // Title centered
+        t.addCell(" " + title + " ", new CellStyle(CellStyle.HorizontalAlign.center));
 
+        // Options
         for (String opt : options) {
-            table.addCell(" " + opt + " ");
+            t.addCell(" " + opt + " ");
         }
-        println(table.render());
+        println(t.render());
     }
 }

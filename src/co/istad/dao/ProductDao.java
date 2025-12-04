@@ -11,4 +11,5 @@ public interface ProductDao {
     void deleteById(Integer id);
     List<Product> selectByName(String name);
     Product findById(Integer id);
+    List<Product> search(String keyword);
 }

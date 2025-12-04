@@ -10,11 +10,11 @@ import static co.istad.utils.PrintUtils.*;
 
 public class ProductFileDao implements ProductDao {
 
-    private static final String FILE_PATH = "data/products.csv";
+    private static final String PATH = "data/products.csv";
     //read file
     public static List<Product> selectAll() {
         List<Product> products = new ArrayList<>();
-        File file = new File(FILE_PATH);
+        File file = new File(PATH);
 
         if (!file.exists()) return products;
 
@@ -29,13 +29,13 @@ public class ProductFileDao implements ProductDao {
 
                 if (parts.length >= 7) {
                     Product p = new Product();
-                    p.setId(Integer.valueOf(Integer.parseInt(parts[0].trim())));
+                    p.setId(Integer.parseInt(parts[0].trim()));
                     p.setName(parts[1].trim());
-                    p.setPrice(Double.valueOf(Double.parseDouble(parts[2].trim())));
-                    p.setQty(Integer.valueOf(Integer.parseInt(parts[3].trim())));
+                    p.setPrice(Double.parseDouble(parts[2].trim()));
+                    p.setQty(Integer.parseInt(parts[3].trim()));
                     p.setCategory(parts[4].trim());
                     p.setStatus(parts[5].trim());
-                    p.setCost(Double.valueOf(Double.parseDouble(parts[6].trim())));
+                    p.setCost(Double.parseDouble(parts[6].trim()));
                     products.add(p);
                 }
             }
@@ -59,6 +59,19 @@ public class ProductFileDao implements ProductDao {
                 .filter(p -> p.getName().toLowerCase().contains(name.toLowerCase()))
                 .filter(p -> !p.getStatus().equals("Deleted"))
                 .collect(Collectors.toList());
+    }
+    @Override
+    public List<Product> search(String keyword) {
+            String key = keyword.toLowerCase();
+
+            return selectAll().stream()
+                    .filter(p -> !p.getStatus().equalsIgnoreCase("Deleted"))
+                    .filter(p ->
+                            String.valueOf(p.getId()).equals(key)
+                                    ||
+                                    p.getName().toLowerCase().contains(key)
+                    )
+                    .collect(Collectors.toList());
     }
 
     //write
@@ -103,7 +116,7 @@ public class ProductFileDao implements ProductDao {
     }
 
     private void renew(List<Product> products) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH))) {
             writer.write("ID,Name,Price,Qty,Category,Status,Cost");
             writer.newLine();
             for (Product p : products) {

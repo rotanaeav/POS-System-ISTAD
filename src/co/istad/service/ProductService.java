@@ -3,10 +3,10 @@ package co.istad.service;
 import co.istad.dao.ProductDao;
 import co.istad.dao.impl.ProductFileDao;
 import co.istad.entity.Product;
-import static co.istad.utils.InputUtils.*;
-import static co.istad.view.TableUtils.*;
 import java.util.List;
+import static co.istad.utils.InputUtils.*;
 import static co.istad.utils.PrintUtils.*;
+import static co.istad.view.TableUtils.*;
 
 public class ProductService {
 
@@ -14,15 +14,14 @@ public class ProductService {
 
     public void AddProduct() {
         printHead("STOCK MANAGEMENT");
-        List<Product> allProducts = ProductDao.selectAll();
+        List<Product> allProducts = productDao.selectAll();
         renderProducts(allProducts);
 
-        String inputId = readText("Enter ID to add qty (or press ENTER to create NEW)");
-
+        String inputId = readText("Enter ID to Restock (or press ENTER to create NEW): ");
         Product foundProduct = null;
-        boolean isId = !inputId.isEmpty();
+        boolean isIdProvided = !inputId.isEmpty();
 
-        if (isId) {
+        if (isIdProvided) {
             try {
                 int id = Integer.parseInt(inputId);
                 for (Product p : allProducts) {
@@ -32,22 +31,22 @@ public class ProductService {
                     }
                 }
             } catch (NumberFormatException e) {
-                printErr("System Error : "+e.getMessage());
+                printErr("Error");
             }
         }
 
         if (foundProduct != null) {
             restockProduct(foundProduct);
 
-        } else if (isId) {
+        } else if (isIdProvided) {
             printWarm("Product ID [" + inputId + "] not found.");
 
-            boolean create = readconfirm("Do you want to create a new product?");
+            boolean create = readconfirm("Do you want to create it as a NEW product?");
 
             if (create) {
                 addNewProduct(allProducts);
             } else {
-               printInfo("<< returning to menu...");
+                printInfo("Returning to menu...");
             }
 
         } else {
@@ -62,50 +61,67 @@ public class ProductService {
             nextId = maxId + 1;
         }
 
-        printHead("Creating New Product (ID: " + nextId+")");
+        printHead("CREATING NEW PRODUCT (ID: " + nextId + ")");
 
         String name = readValidText("Name: ");
-        double cost = readDouble("Import Price");
-        double price = readDouble("Sale Price");
-
+        double cost = readDouble("Import Price (Cost): ");
+        double price = readDouble("Sale Price: ");
         int qty = readInt("Qty: ");
         String category = readValidText("Category: ");
 
         Product newP = new Product(nextId, name, price, qty, category, "Active", cost);
         productDao.insert(newP);
-        printTrue("Product Created!");
+        printTrue("Product Created Successfully!");
+    }
+
+    public void searchProduct() {
+        printHead("SEARCH PRODUCT");
+
+        String keyword = readValidText("Enter ID or Name to search: ");
+
+        List<Product> results = productDao.search(keyword);
+
+        if (results.isEmpty()) {
+            printErr("No products found matching: " + keyword);
+        } else {
+            printInfo("Found " + results.size() + " result(s):");
+            renderProducts(results);
+        }
     }
 
     private void restockProduct(Product p) {
-        printHead("Restocking: " + p.getName() + " (Current: " + p.getQty() + ")");
+        printHead("RESTOCKING: " + p.getName() + " (Current: " + p.getQty() + ")");
         int addQty = readInt("Qty to add: ");
 
         p.setQty(p.getQty() + addQty);
+        p.setStatus("Active");
+
         productDao.insert(p);
         printTrue("Stock Updated!");
     }
 
-    public void updateProduct() {
+    public void editProduct() {
         printHead("UPDATE PRODUCT DETAILS");
 
-        int id = readInt("Enter Product ID to Edit");
+        renderProducts(productDao.selectAll());
+
+        int id = readInt("Enter Product ID to Edit: ");
         Product p = productDao.findById(id);
 
         if (p == null) {
-           printErr("Product not found!");
+            printErr("Product not found!");
             return;
         }
 
-       printInfo("[Name: " + p.getName() + "] [Price: $" + p.getPrice() + "]");
-        //skip if enter
-       println("(Press ENTER to skip )");
+        printInfo("Current: [Name: " + p.getName() + "] [Price: $" + p.getPrice() + "]");
+        printInfo("Type new value or Press [ENTER] to skip.");
 
-        String newName = readText("New Name");
+        String newName = readText("New Name: ");
         if (!newName.isEmpty()) {
             p.setName(newName);
         }
 
-        String newPriceStr = readText("New Price");
+        String newPriceStr = readText("New Price: ");
         if (!newPriceStr.isEmpty()) {
             try {
                 double newPrice = Double.parseDouble(newPriceStr);
@@ -115,7 +131,17 @@ public class ProductService {
             }
         }
 
-        String newCat = readText("New Category");
+        String newCostStr = readText("New Cost: ");
+        if (!newCostStr.isEmpty()) {
+            try {
+                double newCost = Double.parseDouble(newCostStr);
+                p.setCost(newCost);
+            } catch (NumberFormatException e) {
+                printWarm("Invalid cost format. Keeping old cost.");
+            }
+        }
+
+        String newCat = readText("New Category: ");
         if (!newCat.isEmpty()) {
             p.setCategory(newCat);
         }
@@ -123,13 +149,20 @@ public class ProductService {
         productDao.insert(p);
         printTrue("Product Details Updated!");
     }
+
     public void deleteProduct() {
-        int id = readInt("Enter ID");
+        printHead("DELETE PRODUCT");
+
+        renderProducts(productDao.selectAll());
+
+        int id = readInt("Enter ID to delete: ");
         Product p = productDao.findById(id);
+
         if (p == null) {
-           printErr("Product not found!");
+            printErr("Product not found!");
             return;
         }
+
         if (p.getStatus().equalsIgnoreCase("Deleted")) {
             printWarm("Product is already deleted.");
             return;
@@ -144,6 +177,65 @@ public class ProductService {
             printTrue("Product '" + p.getName() + "' has been deleted.");
         } else {
             printInfo("Operation cancelled.");
+        }
+    }
+
+    public void viewProducts() {
+        List<Product> allProducts = productDao.selectAll();
+
+        List<Product> activeProducts = new java.util.ArrayList<>();
+        for(Product p : allProducts) {
+            if(!p.getStatus().equalsIgnoreCase("Deleted")) {
+                activeProducts.add(p);
+            }
+        }
+        //paginate
+        int pageSize = 5; // How many rows per page
+        int totalRecords = activeProducts.size();
+        int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
+        int currentPage = 1;
+        while (true) {
+            printHead("PRODUCT LIST (Page " + currentPage + "/" + totalPages + ")");
+
+            int start = (currentPage - 1) * pageSize;
+            int end = Math.min(start + pageSize, totalRecords);
+
+            if (activeProducts.isEmpty()) {
+                printInfo("No products found.");
+                return;
+            }
+
+            List<Product> pageData = activeProducts.subList(start, end);
+
+            renderProducts(pageData);
+            String[] navOptions = {
+                    "N. Next Page",
+                    "P. Previous Page",
+                    "B. Back"
+            };
+            renderMenu("PAGE " + currentPage + "/" + totalPages, navOptions);
+            String choice = readText(">> Navigation: ").toLowerCase();
+
+            switch (choice) {
+                case "n":
+                    if (currentPage < totalPages) {
+                        currentPage++;
+                    } else {
+                        printWarm("You are on the last page.");
+                    }
+                    break;
+                case "p":
+                    if (currentPage > 1) {
+                        currentPage--;
+                    } else {
+                        printWarm("You are on the first page.");
+                    }
+                    break;
+                case "b":
+                    return;
+                default:
+                    printErr("Invalid navigation option.");
+            }
         }
     }
 }
