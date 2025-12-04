@@ -2,81 +2,61 @@
 package co.istad.view;
 
 import co.istad.dao.ProductDao;
+import co.istad.entity.User;
+import co.istad.service.AuthService;
+import co.istad.service.CartService;
 import co.istad.service.ProductService;
 
 import static co.istad.utils.InputUtils.*;
 import static co.istad.utils.PrintUtils.*;
 
 public class MenuUI {
-    @SuppressWarnings("LoopStatementThatDoesntLoop")
+
+    private final AuthService authService = new AuthService();
+    private final ProductService productService = new ProductService();
+    private final CartService cartService = new CartService();
+
     public void start() {
-        while (true){
-            printCase("1. Sale Menu");
-            printCase("2. Admin Menu");
-            printCase("3. Stock Menu");
-            printCase("0. Exit");
-            int option = readInt("Choose option");
-            while (true){
-                switch (option) {
-                    case 1 ->
-                            saleMenu();
+        while (true) {
+            User user = authService.login();
 
-                    case 2 ->
-                            adminMenu();
+            if (user == null) {
+                printInfo("Goodbye! System closing...");
+                System.exit(0);
+            }
 
-                    case 3 ->
-                            stockMenu();
+            String role = user.getRole().toUpperCase();
 
-                    case 0 ->
-                            System.exit(0);
-
-                    default ->
-                            printErr("Invalid Input..!");
-                }
+            switch (role) {
+                case "ADMIN": adminMenu(); break;
+                case "STOCK": stockMenu(); break;
+                case "SALE":  saleMenu(); break;
+                default: printErr("Role [" + role + "] is not recognized.");
             }
         }
     }
 
     private void adminMenu() {
+        while (true) {
+            println();
+            String[] options = {
+                    "1. 📦 Product Center",
+                    "2. 👥 Customer Center",
+                    "3. 📊 View Sales History",
+                    "4. 👤 User Management",
+                    "0. 🚪 Logout"
+            };
+            TableUtils.renderMenu("ADMIN DASHBOARD", options);
 
-        printHead("Admin Menu");
-        printCase("1. List Product");
-        printCase("2. Add Product");
-        printCase("3. Update Product");
-        printCase("4. Delete Product");
-        printCase("5. Search Product");
-        printCase("6. View Transition History");
-        printCase("0. Exit");
-        int option = readInt("Choose option");
+            int choice = readInt(">> Choose option: ");
 
-        while (true){
-            switch (option) {
-                case 1 ->  {
-//                    ProductDao.selectAll();
-                }
-
-                case 2 -> {
-//                    ProductService.AddProduct();
-                }
-
-                case 3 -> {
-//                    stockMenu();
-                }
-
-                case 4 -> {
-//                    delete
-                }
-
-                case 5 -> {
-//                    search
-                }
-
-                case 0 ->
-                        System.exit(0);
-
-                default ->
-                        printErr("Invalid Input..!");
-
+            switch (choice) {
+                case 1: productMenu("ADMIN"); break;
+                case 2: customerMenu(); break;
+                case 3: historyService.viewSalesHistory(); break; // Member C feature
+                case 4: println("⚠️ User Feature coming soon..."); break;
+                case 0: authService.logout(); return;
+                default: printErr("Invalid option.");
             }
         }
     }

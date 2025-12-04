@@ -3,6 +3,7 @@ package co.istad.view;
 import co.istad.entity.Customer;
 import co.istad.entity.Product;
 import org.nocrala.tools.texttablefmt.BorderStyle;
+import org.nocrala.tools.texttablefmt.CellStyle;
 import org.nocrala.tools.texttablefmt.ShownBorders;
 import org.nocrala.tools.texttablefmt.Table;
 
@@ -55,22 +56,53 @@ public class TableUtils{
             return;
         }
 
-        // Columns: ID, NAME, PHONE, TYPE
-        Table t = new Table(4, BorderStyle.UNICODE_BOX_DOUBLE_BORDER, ShownBorders.ALL);
+        Table t = new Table(4, BorderStyle.UNICODE_DOUBLE_BOX, ShownBorders.ALL);
 
-        // Header
         t.addCell(" ID ");
         t.addCell(" NAME ");
         t.addCell(" PHONE ");
         t.addCell(" TYPE ");
 
-        // Data
-        for (Customer c : customers) {
-            t.addCell(" " + c.getId() + " ");
-            t.addCell(" " + c.getName() + " ");
-            t.addCell(" " + c.getPhone() + " ");
-            t.addCell(" " + c.getType() + " ");
+        for (Customer customer : customers) {
+            t.addCell(" " + customer.getId() + " ");
+            t.addCell(" " + customer.getName() + " ");
+            t.addCell(" " + customer.getPhone() + " ");
+            t.addCell(" " + customer.getType() + " ");
         }
         println(t.render());
+    }
+
+    public static void renderCustomerInfo(Customer customer) {
+        if (customer == null) return;
+
+        Table table = new Table(2, BorderStyle.UNICODE_DOUBLE_BOX, ShownBorders.ALL);
+
+        table.addCell(" FIELD ");
+        table.addCell(" DATA ");
+
+        table.addCell(" ID ");
+        table.addCell(" " + customer.getId() + " ");
+
+        table.addCell(" Name ");
+        table.addCell(" " + customer.getName() + " ");
+
+        table.addCell(" Phone ");
+        table.addCell(" " + customer.getPhone() + " ");
+
+        table.addCell(" Type ");
+        table.addCell(" " + customer.getType() + " ");
+
+        println(table.render());
+    }
+
+    public static void renderMenu(String title, String[] options) {
+        Table table = new Table(1, BorderStyle.UNICODE_DOUBLE_BOX, ShownBorders.ALL);
+
+        table.addCell(" " + title + " ", new CellStyle(CellStyle.HorizontalAlign.center));
+
+        for (String opt : options) {
+            table.addCell(" " + opt + " ");
+        }
+        println(table.render());
     }
 }
