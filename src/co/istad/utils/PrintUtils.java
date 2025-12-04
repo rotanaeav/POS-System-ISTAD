@@ -1,5 +1,8 @@
 package co.istad.utils;
 
+import static co.istad.utils.InputUtils.readEnter;
+import static co.istad.utils.InputUtils.readText;
+
 public class PrintUtils {
     private static final String RESET = "\u001B[0m";
     private static final String RED = "\u001B[31m";
@@ -35,7 +38,7 @@ public class PrintUtils {
     }
 
     public static void printHead(String title) {
-        System.out.println(CYAN + "\n***  " + title.toUpperCase() +"***" + RESET);
+        System.out.println(CYAN + "\n*** " + title.toUpperCase() +" ***" + RESET);
     }
 
     public static void printf(String s, double totalAmount) {
@@ -47,4 +50,9 @@ public class PrintUtils {
     public static void printCase(String option) {
         System.out.println(GREEN + option + RESET);
     }
+
+    public static void pressEnter() {
+        readEnter("Press ENTER to continue...");
+    }
+
 }
