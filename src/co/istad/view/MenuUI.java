@@ -11,7 +11,6 @@ public class MenuUI {
     @SuppressWarnings("LoopStatementThatDoesntLoop")
     public void start() {
         while (true){
-            printHead("welcome to pos system");
             printCase("1. Sale Menu");
             printCase("2. Admin Menu");
             printCase("3. Stock Menu");
