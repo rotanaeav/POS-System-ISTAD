@@ -13,6 +13,12 @@ public class InputUtils {
         return scanner.nextLine().trim();
     }
 
+    public static String readEnter(String message) {
+        print(message);
+        return scanner.nextLine().trim();
+    }
+
+
     public static String readValidText(String message) {
         while (true) {
             String input = readText(message);

@@ -1,10 +1,9 @@
-
 package co.istad.view;
 
-import co.istad.dao.ProductDao;
 import co.istad.entity.User;
 import co.istad.service.AuthService;
 import co.istad.service.CartService;
+import co.istad.service.CustomerService;
 import co.istad.service.ProductService;
 
 import static co.istad.utils.InputUtils.*;
@@ -15,6 +14,7 @@ public class MenuUI {
     private final AuthService authService = new AuthService();
     private final ProductService productService = new ProductService();
     private final CartService cartService = new CartService();
+    private final CustomerService customerService = new CustomerService();
 
     public void start() {
         while (true) {
@@ -30,9 +30,10 @@ public class MenuUI {
             switch (role) {
                 case "ADMIN": adminMenu(); break;
                 case "STOCK": stockMenu(); break;
-                case "SALE":  saleMenu(); break;
+                case "SALE":  sellerMenu(); break;
                 default: printErr("Role [" + role + "] is not recognized.");
             }
+            pressEnter();
         }
     }
 
@@ -40,85 +41,152 @@ public class MenuUI {
         while (true) {
             println();
             String[] options = {
-                    "1. 📦 Product Center",
-                    "2. 👥 Customer Center",
-                    "3. 📊 View Sales History",
-                    "4. 👤 User Management",
-                    "0. 🚪 Logout"
+                    "1. Product Center",
+                    "2. Customer Center",
+                    "3. View Sales History",
+                    "4. User Management",
+                    "0. Logout"
             };
             TableUtils.renderMenu("ADMIN DASHBOARD", options);
 
-            int choice = readInt(">> Choose option: ");
+            int choice = readInt("Choose option");
 
             switch (choice) {
                 case 1: productMenu("ADMIN"); break;
                 case 2: customerMenu(); break;
-                case 3: historyService.viewSalesHistory(); break; // Member C feature
-                case 4: println("⚠️ User Feature coming soon..."); break;
+                case 3: println("Sale history Feature coming soon..."); break;
+                case 4: println("User Feature coming soon..."); break;
                 case 0: authService.logout(); return;
                 default: printErr("Invalid option.");
             }
+            pressEnter();
         }
     }
 
     private void stockMenu() {
-        printHead("Stock Menu");
-        printCase("1. List Product");
-        printCase("2. Add Product");
-        printCase("3. Update Product");
-        printCase("4. Delete Product");
-        printCase("5. Search Product");
-        printCase("0. Exit");
-        int option = readInt("Choose option");
+        while (true) {
+            println();
+            String[] options = {
+                    "1. Product Management",
+                    "2. View Full Inventory",
+                    "0. Logout"
+            };
+            TableUtils.renderMenu("STOCK MANAGER", options);
 
-        while (true){
-            switch (option) {
-                case 1 ->  {
-                    ProductService pro = new ProductService();
-                }
+            int choice = readInt("Choose option");
 
-                case 2 -> {
-//                    ProductService.AddProduct();
-                }
-
-                case 3 ->
-                        stockMenu();
-
-                case 0 ->
-                        System.exit(0);
-
-                default ->
-                        printErr("Invalid Input..!");
-
+            switch (choice) {
+                case 1: productMenu("STOCK"); break;
+                case 2: productService.viewProducts(); break;
+                case 0: authService.logout(); return;
+                default: printErr("Invalid option.");
             }
+            pressEnter();
         }
-
     }
 
-    private void saleMenu() {
+    private void sellerMenu() {
         while (true) {
-            printHead("Sale Menu");
-            printCase("1. Add to Cart");
-            printCase("2. Calculate Total");
-            printCase("3. Checkout");
-            printCase("0. Exit");
-            int option = readInt("Choose");
+            println();
+            String[] options = {
+                    "1. New Sale (Checkout)",
+                    "2. Check Product Price",
+                    "3. Register New Customer",
+                    "4. View My Sales",
+                    "0. Logout"
+            };
+            TableUtils.renderMenu("POINT OF SALE", options);
 
-            switch (option) {
-
-                case 1 -> {}
-
-                case 2 -> {}
-
-                case 3 -> {}
-
-                case 0 ->
-                        System.exit(0);
-
-                default ->
-                        printErr("Invalid Input..!");
-
+            int choice = readInt("Choose option");
+            switch (choice) {
+                case 1: startSalesProcess(); break;
+                case 2: productService.searchProduct(); break;
+                case 3: customerService.addCustomer(); break;
+                case 4: customerService.viewCustomers(); break;
+                case 0: authService.logout(); return;
+                default: printErr("Invalid option.");
             }
+            pressEnter();
+        }
+    }
+    private void productMenu(String role) {
+        while (true) {
+            println();
+            String[] options = {
+                    "1. Add / Restock",
+                    "2. Edit Details",
+                    "3. Delete Product",
+                    "4. View All",
+                    "5. Search",
+                    "0. Back"
+            };
+            TableUtils.renderMenu("PRODUCT CENTER (" + role + ")", options);
+
+            int choice = readInt("Option");
+
+            switch (choice) {
+                case 1: productService.addProduct(); break;
+                case 2: productService.editProduct(); break;
+                case 3: productService.deleteProduct(); break;
+                case 4: productService.viewProducts(); break;
+                case 5: productService.searchProduct(); break;
+                case 0: return;
+                default: printErr("Invalid option.");
+            }
+            pressEnter();
+        }
+    }
+
+    private void customerMenu() {
+        while (true) {
+            println();
+            String[] options = {
+                    "1. Add New Customer",
+                    "2. View All Customers",
+                    "3. Edit Customer",
+                    "4. Search Customer",
+                    "0. Back"
+            };
+            TableUtils.renderMenu("CUSTOMER CENTER", options);
+
+            int choice = readInt("Option");
+
+            switch (choice) {
+                case 1: customerService.addCustomer(); break;
+                case 2: customerService.viewCustomers(); break;
+                case 3: customerService.editCustomer(); break;
+                case 4: customerService.searchCustomer(); break;
+                case 0: return;
+                default: printErr("Invalid option.");
+            }
+            pressEnter();
+        }
+    }
+    private void startSalesProcess() {
+        printHead("SHOPPING CART MODE");
+        cartService.clearCart();
+
+        while (true) {
+            println("----------------------------------------");
+            println("INSTRUCTIONS: Scan ID to Add. Type '0' to Checkout.");
+
+            int id = readInt("Scan Product ID (or 0 to Checkout, -1 to Cancel)");
+
+            if (id == -1) {
+                cartService.clearCart();
+                printInfo("Sale cancelled.");
+                return;
+            }
+
+            if (id == 0) {
+                cartService.checkout();
+                return;
+            }
+
+            int qty = readInt("Quantity");
+            cartService.addItemToCart(id, qty);
+
+            pressEnter();
         }
     }
 }

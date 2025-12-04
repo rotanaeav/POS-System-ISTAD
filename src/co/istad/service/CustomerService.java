@@ -15,7 +15,7 @@ public class CustomerService {
     public void viewCustomers() {
         List<Customer> all = customerDB.getAll();
         printHead("Customer List");
-        //TableUtils.renderCustomers(all);
+        renderCustomers(all);
         printInfo("Total " + all.size() + " customers");
     }
     public void addCustomer() {

@@ -14,6 +14,13 @@ public class AuthService {
     private static User currentUser;
 
     public User login() {
+
+        print(" ____   ___  ____            ____ _____  _    ____  \n" +
+                "|  _ \\ / _ \\/ ___|          / ___|_   _|/ \\  |  _ \\ \n" +
+                "| |_) | | | \\___ \\   _____  \\___ \\ | | / _ \\ | | | |\n" +
+                "|  __/| |_| |___) | |_____|  ___) || |/ ___ \\| |_| |\n" +
+                "|_|    \\___/|____/          |____/ |_/_/   \\_\\____/\n");
+
         printHead("SYSTEM LOGIN");
 
         while (true) {

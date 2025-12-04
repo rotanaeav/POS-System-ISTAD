@@ -12,12 +12,12 @@ public class ProductService {
 
     private final ProductDao productDao = new ProductFileDao();
 
-    public void AddProduct() {
+    public void addProduct() {
         printHead("STOCK MANAGEMENT");
         List<Product> allProducts = productDao.selectAll();
         renderProducts(allProducts);
 
-        String inputId = readText("Enter ID to Restock (or press ENTER to create NEW): ");
+        String inputId = readText("Enter ID to Restock (or press ENTER to create NEW)");
         Product foundProduct = null;
         boolean isIdProvided = !inputId.isEmpty();
 
@@ -61,13 +61,13 @@ public class ProductService {
             nextId = maxId + 1;
         }
 
-        printHead("CREATING NEW PRODUCT (ID: " + nextId + ")");
+        printHead("CREATING NEW PRODUCT (ID" + nextId + ")");
 
-        String name = readValidText("Name: ");
-        double cost = readDouble("Import Price (Cost): ");
-        double price = readDouble("Sale Price: ");
-        int qty = readInt("Qty: ");
-        String category = readValidText("Category: ");
+        String name = readValidText("Name");
+        double cost = readDouble("Import Price (Cost)");
+        double price = readDouble("Sale Price");
+        int qty = readInt("Qty");
+        String category = readValidText("Category");
 
         Product newP = new Product(nextId, name, price, qty, category, "Active", cost);
         productDao.insert(newP);
@@ -77,25 +77,23 @@ public class ProductService {
     public void searchProduct() {
         printHead("SEARCH PRODUCT");
 
-        String keyword = readValidText("Enter ID or Name to search: ");
+        String keyword = readValidText("Enter ID or Name to search");
 
         List<Product> results = productDao.search(keyword);
 
         if (results.isEmpty()) {
-            printErr("No products found matching: " + keyword);
+            printErr("No products found matching" + keyword);
         } else {
-            printInfo("Found " + results.size() + " result(s):");
+            printInfo("Found " + results.size() + " result(s)");
             renderProducts(results);
         }
     }
 
     private void restockProduct(Product p) {
-        printHead("RESTOCKING: " + p.getName() + " (Current: " + p.getQty() + ")");
-        int addQty = readInt("Qty to add: ");
+        printHead("RESTOCKING: " + p.getName() + " (Current" + p.getQty() + ")");
+        int addQty = readInt("Qty to add");
 
         p.setQty(p.getQty() + addQty);
-        p.setStatus("Active");
-
         productDao.insert(p);
         printTrue("Stock Updated!");
     }
@@ -105,23 +103,23 @@ public class ProductService {
 
         renderProducts(productDao.selectAll());
 
-        int id = readInt("Enter Product ID to Edit: ");
+        int id = readInt("Enter Product ID to Edit");
         Product p = productDao.findById(id);
 
         if (p == null) {
-            printErr("Product not found!");
+           printErr("Product not found!");
             return;
         }
 
         printInfo("Current: [Name: " + p.getName() + "] [Price: $" + p.getPrice() + "]");
         printInfo("Type new value or Press [ENTER] to skip.");
 
-        String newName = readText("New Name: ");
+        String newName = readText("New Name");
         if (!newName.isEmpty()) {
             p.setName(newName);
         }
 
-        String newPriceStr = readText("New Price: ");
+        String newPriceStr = readText("New Price");
         if (!newPriceStr.isEmpty()) {
             try {
                 double newPrice = Double.parseDouble(newPriceStr);
@@ -131,7 +129,7 @@ public class ProductService {
             }
         }
 
-        String newCostStr = readText("New Cost: ");
+        String newCostStr = readText("New Cost");
         if (!newCostStr.isEmpty()) {
             try {
                 double newCost = Double.parseDouble(newCostStr);
@@ -141,7 +139,7 @@ public class ProductService {
             }
         }
 
-        String newCat = readText("New Category: ");
+        String newCat = readText("New Category");
         if (!newCat.isEmpty()) {
             p.setCategory(newCat);
         }
@@ -155,7 +153,7 @@ public class ProductService {
 
         renderProducts(productDao.selectAll());
 
-        int id = readInt("Enter ID to delete: ");
+        int id = readInt("Enter ID to delete");
         Product p = productDao.findById(id);
 
         if (p == null) {
