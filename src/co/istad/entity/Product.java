@@ -3,7 +3,7 @@ public class Product {
     private Integer id;
     private String name;
     private Double price; // Selling Price (For Customer)
-    private Double cost;  // Cost Price (For Admin/Stock) <--- NEW
+    private Double cost;  // Cost Price
     private Integer qty;
     private String category;
     private String status;

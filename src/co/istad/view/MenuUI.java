@@ -102,7 +102,7 @@ public class MenuUI {
                 case 1: startSalesProcess(); break;
                 case 2: productService.searchProduct(); break;
                 case 3: customerService.addCustomer(); break;
-                case 4: customerService.viewCustomers(); break;
+                case 4: println("Sale history Feature coming soon..."); break;
                 case 0: authService.logout(); return;
                 default: printErr("Invalid option.");
             }

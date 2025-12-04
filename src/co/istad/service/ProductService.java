@@ -188,7 +188,7 @@ public class ProductService {
             }
         }
         //paginate
-        int pageSize = 5; // How many rows per page
+        int pageSize = 5;
         int totalRecords = activeProducts.size();
         int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
         int currentPage = 1;

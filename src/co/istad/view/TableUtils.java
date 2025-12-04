@@ -9,13 +9,21 @@ import static co.istad.utils.PrintUtils.*;
 
 public class TableUtils {
 
+/*
+    public static void renderLogIn(AuthService log){
+        Table t = new Table(1, BorderStyle.UNICODE_DOUBLE_BOX);
+        t.addCell(log.login());
+        print(t.render());
+    }
+*/
+
     public static void renderProducts(List<Product> products) {
         if (products.isEmpty()) {
             printInfo("No products found.");
             return;
         }
 
-        Table t = new Table(7, BorderStyle.UNICODE_DOUBLE_BOX, ShownBorders.ALL);
+        Table t = new Table(7, BorderStyle.UNICODE_DOUBLE_BOX);
 
         // Header
         t.addCell(" ID ");
@@ -52,7 +60,7 @@ public class TableUtils {
             return;
         }
 
-        Table t = new Table(4, BorderStyle.UNICODE_DOUBLE_BOX, ShownBorders.ALL);
+        Table t = new Table(4, BorderStyle.UNICODE_DOUBLE_BOX);
 
         // Header
         t.addCell(" ID ");
@@ -70,7 +78,7 @@ public class TableUtils {
     public static void renderCustinfo(Customer c) {
         if (c == null) return;
 
-        Table t = new Table(2, BorderStyle.UNICODE_DOUBLE_BOX, ShownBorders.ALL);
+        Table t = new Table(2, BorderStyle.UNICODE_DOUBLE_BOX);
 
         // Header
         t.addCell(" FIELD ");
@@ -92,7 +100,7 @@ public class TableUtils {
         println(t.render());
     }
     public static void renderMenu(String title, String[] options) {
-        Table t = new Table(1, BorderStyle.UNICODE_DOUBLE_BOX, ShownBorders.ALL);
+        Table t = new Table(1, BorderStyle.UNICODE_DOUBLE_BOX);
 
         // Title centered
         t.addCell(" " + title + " ", new CellStyle(CellStyle.HorizontalAlign.center));
