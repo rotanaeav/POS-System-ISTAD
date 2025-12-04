@@ -3,3 +3,4 @@ ID,Username,Password,Role,Status
 9901,stock,istad@min,STOCK,Active
 9902,pos,pos@istad,SALE,Active
 9903,rtn,rtn@istad,SALE,Inactive
+9904,Rotana,1111,STOCK,Active

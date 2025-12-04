@@ -1,5 +1,5 @@
 ID,Name,Price,Qty,Category,Status,Cost
-1001,Coca Cola,1.50,29,Drink,Active,0.80
+1001,Coca Cola,1.50,24,Drink,Active,0.80
 1002,messi,1200.00,5,sport,Deleted,1000.00
 1003,Vital Water,0.50,95,Drink,Active,0.20
 1004,Red Bull,1.20,55,Energy,Active,0.80
@@ -19,4 +19,5 @@ ID,Name,Price,Qty,Category,Status,Cost
 1301,Notebook,0.75,30,Stationery,Active,0.25
 1302,Pen Blue,0.50,100,Stationery,Active,0.25
 1303,OldTown Coffee,0.50,0,Snack,Deleted,0.20
-1304,Krud,2.00,30,Energy,Active,1.00
+1304,Krud,2.00,32,Energy,Active,1.00
+1305,Many,2.00,1,d,Deleted,11.00

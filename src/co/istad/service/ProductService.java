@@ -66,7 +66,8 @@ public class ProductService {
         String name = readValidText("Name");
         double cost = readDouble("Import Price (Cost)");
         double price = readDouble("Sale Price");
-        int qty = readInt("Qty");
+        int qty = readQty("Qty");
+
         String category = readValidText("Category");
 
         Product newP = new Product(nextId, name, price, qty, category, "Active", cost);
@@ -91,7 +92,7 @@ public class ProductService {
 
     private void restockProduct(Product p) {
         printHead("RESTOCKING: " + p.getName() + " (Current" + p.getQty() + ")");
-        int addQty = readInt("Qty to add");
+        int addQty = readQty("Qty to add");
 
         p.setQty(p.getQty() + addQty);
         productDao.insert(p);

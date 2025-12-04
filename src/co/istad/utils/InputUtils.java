@@ -26,11 +26,30 @@ public class InputUtils {
             printErr("Input cannot be empty.");
         }
     }
-
     public static int readInt(String message) {
         while (true) {
             try {
                 String input = readText(message);
+                int num = Integer.parseInt(input);
+                if (num <0) {
+                    printErr("Input Must be 0 or positive.");
+                    continue;
+                }
+                return Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                printErr("Invalid number. Please enter a valid integer.");
+            }
+        }
+    }
+    public static int readQty(String message) {
+        while (true) {
+            try {
+                String input = readText(message);
+                int num = Integer.parseInt(input);
+                if (num <= 0) {
+                    printErr("QTY  must be positive.");
+                    continue;
+                }
                 return Integer.parseInt(input);
             } catch (NumberFormatException e) {
                 printErr("Invalid number. Please enter a valid integer.");
@@ -42,6 +61,11 @@ public class InputUtils {
         while (true) {
             try {
                 String input = readText(message);
+                double price = Double.parseDouble(input);
+                if (price < 0) {
+                    printErr("Price must be 0 or positive number.");
+                    continue;
+                }
                 return Double.parseDouble(input);
             } catch (NumberFormatException e) {
                 printErr("Invalid price. Example : 1.50");

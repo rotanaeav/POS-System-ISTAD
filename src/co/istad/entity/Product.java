@@ -21,6 +21,13 @@ public class Product {
     }
 
     public Product(int nextId, String name, double price, int qty, String category, String active, double cost) {
+        this.id = nextId;
+        this.name = name;
+        this.price = price;
+        this.qty = qty;
+        this.category = category;
+        this.status = active;
+        this.cost = cost;
     }
 
 

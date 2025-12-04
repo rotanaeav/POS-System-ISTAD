@@ -1,10 +1,8 @@
 package co.istad.view;
 
 import co.istad.entity.User;
-import co.istad.service.AuthService;
-import co.istad.service.CartService;
-import co.istad.service.CustomerService;
-import co.istad.service.ProductService;
+import co.istad.service.*;
+import co.istad.service.impl.CartServiceImpl;
 
 import static co.istad.utils.InputUtils.*;
 import static co.istad.utils.PrintUtils.*;
@@ -13,9 +11,9 @@ public class MenuUI {
 
     private final AuthService authService = new AuthService();
     private final ProductService productService = new ProductService();
-    private final CartService cartService = new CartService();
+    private final CartService cartService = new CartServiceImpl();
     private final CustomerService customerService = new CustomerService();
-
+    private final UserService userService = new UserService();
     public void start() {
         while (true) {
             User user = authService.login();
@@ -55,14 +53,13 @@ public class MenuUI {
                 case 1: productMenu("ADMIN"); break;
                 case 2: customerMenu(); break;
                 case 3: println("Sale history Feature coming soon..."); break;
-                case 4: println("User Feature coming soon..."); break;
+                case 4: userMenu(); break;
                 case 0: authService.logout(); return;
                 default: printErr("Invalid option.");
             }
             pressEnter();
         }
     }
-
     private void stockMenu() {
         while (true) {
             println();
@@ -84,7 +81,6 @@ public class MenuUI {
             pressEnter();
         }
     }
-
     private void sellerMenu() {
         while (true) {
             println();
@@ -136,7 +132,6 @@ public class MenuUI {
             pressEnter();
         }
     }
-
     private void customerMenu() {
         while (true) {
             println();
@@ -162,6 +157,42 @@ public class MenuUI {
             pressEnter();
         }
     }
+    private void userMenu() {
+        while (true) {
+            println();
+            String[] options = {
+                    "1. Create New Staff",
+                    "2. View All Users",
+                    "3. Edit User / Reset Password",
+                    "4. Disable / Ban User",
+                    "0. Back"
+            };
+            TableUtils.renderMenu("USER MANAGEMENT", options);
+
+            int choice = readInt(">> Option: ");
+
+            switch (choice) {
+                case 1:
+                    //  userService.createUser();
+                    break;
+                case 2:
+                   // userService.viewUsers();
+                    break;
+                case 3:
+                   // userService.editUser();
+                    break;
+                case 4:
+                  //  userService.disableUser();
+                    break;
+                case 0:
+                    return;
+                default:
+                    printErr("Invalid option.");
+            }
+            pressEnter();
+        }
+    }
+
     private void startSalesProcess() {
         printHead("SHOPPING CART MODE");
         cartService.clearCart();
