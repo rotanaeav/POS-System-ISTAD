@@ -1,15 +1,9 @@
 package co.istad.utils;
 
 import static co.istad.utils.InputUtils.readEnter;
-import static co.istad.utils.InputUtils.readText;
+import static co.istad.view.Color.*;
 
 public class PrintUtils {
-    private static final String RESET = "\u001B[0m";
-    private static final String RED = "\u001B[31m";
-    private static final String GREEN = "\u001B[32m";
-    private static final String YELLOW = "\u001B[33m";
-    private static final String BLUE = "\u001B[34m";
-    private static final String CYAN = "\u001B[36m";
 
     public static void print(Object msg) {
         System.out.print(msg);

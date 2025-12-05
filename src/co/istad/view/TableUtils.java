@@ -6,16 +6,9 @@ import org.nocrala.tools.texttablefmt.*;
 
 import java.util.List;
 import static co.istad.utils.PrintUtils.*;
+import static co.istad.view.Color.*;
 
 public class TableUtils {
-
-/*
-    public static void renderLogIn(AuthService log){
-        Table t = new Table(1, BorderStyle.UNICODE_DOUBLE_BOX);
-        t.addCell(log.login());
-        print(t.render());
-    }
-*/
 
     public static void renderProducts(List<Product> products) {
         if (products.isEmpty()) {
@@ -26,29 +19,29 @@ public class TableUtils {
         Table t = new Table(7, BorderStyle.UNICODE_DOUBLE_BOX);
 
         // Header
-        t.addCell(" ID ");
-        t.addCell(" NAME ");
-        t.addCell(" COST ");
-        t.addCell(" PRICE ");
-        t.addCell(" QTY ");
-        t.addCell(" CATEGORY ");
-        t.addCell(" STATUS ");
+        t.addCell(GREEN+" ID "+RESET);
+        t.addCell(GREEN+" NAME "+RESET);
+        t.addCell(GREEN+" COST "+RESET);
+        t.addCell(GREEN+" PRICE "+RESET);
+        t.addCell(GREEN+" QTY "+RESET);
+        t.addCell(GREEN+" CATEGORY "+RESET);
+        t.addCell(GREEN+" STATUS "+RESET);
 
         for (Product p : products) {
             if (!p.getStatus().equalsIgnoreCase("Deleted")) {
-                t.addCell(" " + p.getId() + " ");
-                t.addCell(" " + p.getName() + " ");
-                t.addCell(" " + String.format("%.2f", p.getCost()) + " ");
-                t.addCell(" " + String.format("%.2f", p.getPrice()) + " ");
+                t.addCell(CYAN+" " + p.getId() + " "+RESET);
+                t.addCell(CYAN+" " + p.getName() + " "+RESET);
+                t.addCell(CYAN+" " + String.format("%.2f", p.getCost()) + " "+RESET);
+                t.addCell(CYAN+" " + String.format("%.2f", p.getPrice()) + " "+RESET);
 
                 if (p.getQty() <= 0) {
-                    t.addCell(" OUT OF STOCK ");
+                    t.addCell(RED+" OUT OF STOCK "+RESET);
                 } else {
-                    t.addCell(" " + p.getQty() + " ");
+                    t.addCell(CYAN+" " + p.getQty() + " "+RESET);
                 }
 
-                t.addCell(" " + p.getCategory() + " ");
-                t.addCell(" " + p.getStatus() + " ");
+                t.addCell(CYAN+" " + p.getCategory() + " "+RESET);
+                t.addCell(CYAN+" " + p.getStatus() + " "+RESET);
             }
         }
         println(t.render());
@@ -63,15 +56,15 @@ public class TableUtils {
         Table t = new Table(4, BorderStyle.UNICODE_DOUBLE_BOX);
 
         // Header
-        t.addCell(" ID ");
-        t.addCell(" NAME ");
-        t.addCell(" PHONE ");
-        t.addCell(" TYPE ");
+        t.addCell(GREEN+" ID "+RESET);
+        t.addCell(GREEN+" NAME "+RESET);
+        t.addCell(GREEN+" PHONE "+RESET);
+        t.addCell(GREEN+" TYPE "+RESET);
         for (Customer c : customers) {
-            t.addCell(" " + c.getId() + " ");
-            t.addCell(" " + c.getName() + " ");
-            t.addCell(" " + c.getPhone() + " ");
-            t.addCell(" " + c.getType() + " ");
+            t.addCell(CYAN+" " + c.getId() + " "+RESET);
+            t.addCell(CYAN+" " + c.getName() + " "+RESET);
+            t.addCell(CYAN+" " + c.getPhone() + " "+RESET);
+            t.addCell(CYAN+" " + c.getType() + " "+RESET);
         }
         println(t.render());
     }
@@ -81,20 +74,20 @@ public class TableUtils {
         Table t = new Table(2, BorderStyle.UNICODE_DOUBLE_BOX);
 
         // Header
-        t.addCell(" FIELD ");
-        t.addCell(" DATA ");
+        t.addCell(YELLOW+" FIELD "+RESET);
+        t.addCell(YELLOW+" DATA "+RESET);
 
         // Data Rows
-        t.addCell(" ID ");
+        t.addCell(GREEN+" ID "+RESET);
         t.addCell(" " + c.getId() + " ");
 
-        t.addCell(" Name ");
+        t.addCell(GREEN+" Name "+RESET);
         t.addCell(" " + c.getName() + " ");
 
-        t.addCell(" Phone ");
+        t.addCell(GREEN+" Phone "+RESET);
         t.addCell(" " + c.getPhone() + " ");
 
-        t.addCell(" Type ");
+        t.addCell(GREEN+" Type "+RESET);
         t.addCell(" " + c.getType() + " ");
 
         println(t.render());

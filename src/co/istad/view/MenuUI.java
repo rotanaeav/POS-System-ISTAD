@@ -6,6 +6,7 @@ import co.istad.service.impl.CartServiceImpl;
 
 import static co.istad.utils.InputUtils.*;
 import static co.istad.utils.PrintUtils.*;
+import static co.istad.view.Color.*;
 
 public class MenuUI {
 
@@ -39,13 +40,13 @@ public class MenuUI {
         while (true) {
             println();
             String[] options = {
-                    "1. Product Center",
-                    "2. Customer Center",
-                    "3. View Sales History",
-                    "4. User Management",
-                    "0. Logout"
+                    CYAN+"1. Product Center"+RESET,
+                    CYAN+"2. Customer Center"+RESET,
+                    CYAN+"3. View Sales History"+RESET,
+                    CYAN+"4. User Management"+RESET,
+                    RED+"0. Logout"+RESET
             };
-            TableUtils.renderMenu("ADMIN DASHBOARD", options);
+            TableUtils.renderMenu(GREEN+"ADMIN DASHBOARD"+RESET, options);
 
             int choice = readInt("Choose option");
 
@@ -64,11 +65,11 @@ public class MenuUI {
         while (true) {
             println();
             String[] options = {
-                    "1. Product Management",
-                    "2. View Full Inventory",
-                    "0. Logout"
+                    CYAN+"1. Product Management"+RESET,
+                    CYAN+"2. View Full Inventory"+RESET,
+                    RED+"0. Logout"+RESET
             };
-            TableUtils.renderMenu("STOCK MANAGER", options);
+            TableUtils.renderMenu(GREEN+"STOCK MANAGER"+RESET, options);
 
             int choice = readInt("Choose option");
 
@@ -85,13 +86,13 @@ public class MenuUI {
         while (true) {
             println();
             String[] options = {
-                    "1. New Sale (Checkout)",
-                    "2. Check Product Price",
-                    "3. Register New Customer",
-                    "4. View My Sales",
-                    "0. Logout"
+                    CYAN+"1. New Sale (Checkout)"+RESET,
+                    CYAN+"2. Check Product Price"+RESET,
+                    CYAN+"3. Register New Customer"+RESET,
+                    CYAN+"4. View My Sales"+RESET,
+                    RED+"0. Logout"+RESET
             };
-            TableUtils.renderMenu("POINT OF SALE", options);
+            TableUtils.renderMenu(GREEN+"POINT OF SALE"+RESET, options);
 
             int choice = readInt("Choose option");
             switch (choice) {
@@ -109,14 +110,14 @@ public class MenuUI {
         while (true) {
             println();
             String[] options = {
-                    "1. Add / Restock",
-                    "2. Edit Details",
-                    "3. Delete Product",
-                    "4. View All",
-                    "5. Search",
-                    "0. Back"
+                    CYAN+"1. Add / Restock"+RESET,
+                    CYAN+"2. Edit Details"+RESET,
+                    CYAN+"3. Delete Product"+RESET,
+                    CYAN+"4. View All"+RESET,
+                    CYAN+"5. Search"+RESET,
+                    RED+"0. Back"+RESET
             };
-            TableUtils.renderMenu("PRODUCT CENTER (" + role + ")", options);
+            TableUtils.renderMenu(GREEN+"PRODUCT CENTER (" + role + ")"+RESET, options);
 
             int choice = readInt("Option");
 
@@ -136,13 +137,14 @@ public class MenuUI {
         while (true) {
             println();
             String[] options = {
-                    "1. Add New Customer",
-                    "2. View All Customers",
-                    "3. Edit Customer",
-                    "4. Search Customer",
-                    "0. Back"
+                    CYAN+"1. Add New Customer"+RESET,
+                    CYAN+"2. View All Customers"+RESET,
+                    CYAN+"3. Edit Customer"+RESET,
+                    CYAN+"4. Search Customer"+RESET,
+                    RED+"0. Back"+RESET
             };
-            TableUtils.renderMenu("CUSTOMER CENTER", options);
+
+            TableUtils.renderMenu(GREEN+"CUSTOMER CENTER"+RESET, options);
 
             int choice = readInt("Option");
 
@@ -161,15 +163,15 @@ public class MenuUI {
         while (true) {
             println();
             String[] options = {
-                    "1. Create New Staff",
-                    "2. View All Users",
-                    "3. Edit User / Reset Password",
-                    "4. Disable / Ban User",
-                    "0. Back"
+                    CYAN+"1. Create New Staff"+RESET,
+                    CYAN+"2. View All Users"+RESET,
+                    CYAN+"3. Edit User / Reset Password"+RESET,
+                    CYAN+"4. Disable / Ban User"+RESET,
+                    RED+"0. Back"+RESET
             };
-            TableUtils.renderMenu("USER MANAGEMENT", options);
+            TableUtils.renderMenu(GREEN+"USER MANAGEMENT"+RESET, options);
 
-            int choice = readInt(">> Option: ");
+            int choice = readInt("Option");
 
             switch (choice) {
                 case 1:
@@ -194,7 +196,7 @@ public class MenuUI {
     }
 
     private void startSalesProcess() {
-        printHead("SHOPPING CART MODE");
+        printHead(GREEN+"SHOPPING CART MODE"+RESET);
         cartService.clearCart();
 
         while (true) {

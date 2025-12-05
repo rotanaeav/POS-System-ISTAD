@@ -4,6 +4,7 @@ import co.istad.dao.impl.UserFileDao;
 import co.istad.entity.User;
 import static co.istad.utils.InputUtils.*;
 import static co.istad.utils.PrintUtils.*;
+import static co.istad.view.Color.*;
 
 import java.util.Optional;
 
@@ -15,11 +16,11 @@ public class AuthService {
 
     public User login() {
 
-        print(" ____   ___  ____            ____ _____  _    ____  \n" +
+        print(BLUE+" ____   ___  ____            ____ _____  _    ____  \n" +
                 "|  _ \\ / _ \\/ ___|          / ___|_   _|/ \\  |  _ \\ \n" +
                 "| |_) | | | \\___ \\   _____  \\___ \\ | | / _ \\ | | | |\n" +
                 "|  __/| |_| |___) | |_____|  ___) || |/ ___ \\| |_| |\n" +
-                "|_|    \\___/|____/          |____/ |_/_/   \\_\\____/\n");
+                "|_|    \\___/|____/          |____/ |_/_/   \\_\\____/\n"+RESET);
 
         printHead("SYSTEM LOGIN");
 
