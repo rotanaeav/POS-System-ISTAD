@@ -104,4 +104,12 @@ public class TableUtils {
         }
         println(t.render());
     }
+
+    public static void renderUser(String title, String[] options) {
+        Table t = new Table(1, BorderStyle.UNICODE_DOUBLE_BOX);
+
+
+
+        println(t.render());
+    }
 }

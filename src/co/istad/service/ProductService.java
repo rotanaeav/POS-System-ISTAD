@@ -6,6 +6,7 @@ import co.istad.entity.Product;
 import java.util.List;
 import static co.istad.utils.InputUtils.*;
 import static co.istad.utils.PrintUtils.*;
+import static co.istad.view.Color.*;
 import static co.istad.view.TableUtils.*;
 
 public class ProductService {
@@ -208,9 +209,9 @@ public class ProductService {
 
             renderProducts(pageData);
             String[] navOptions = {
-                    "N. Next Page",
-                    "P. Previous Page",
-                    "B. Back"
+                    GREEN+"N. Next Page"+RESET,
+                    BLUE+"P. Previous Page"+RESET,
+                    RED+"B. Back"+RESET
             };
             renderMenu("PAGE " + currentPage + "/" + totalPages, navOptions);
             String choice = readText(">> Navigation: ").toLowerCase();
